@@ -12,11 +12,11 @@ import org.hyperledger.fabric.contract.annotation.Property;
 public class Shipment extends Asset {
     @Property
     @Private(collections = Constants.PRIVATE_COLLECTIONS)
-    String purchaseOrderId;
+    private String purchaseOrderId;
 
     @Property
     @Private(collections = Constants.PRIVATE_COLLECTIONS)
-    int units;
+    private Integer units;
 
     @VerifyHash
     @Deserialize(collections = Constants.PRIVATE_COLLECTIONS)
@@ -30,5 +30,13 @@ public class Shipment extends Asset {
     @DefaultDeserialize
     public Shipment(String id, String hash) {
         super(id, hash);
+    }
+
+    public String getPurchaseOrderId() {
+        return this.purchaseOrderId;
+    }
+
+    public Integer getUnits() {
+        return this.units;
     }
 }

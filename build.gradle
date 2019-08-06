@@ -4,6 +4,7 @@
 plugins {
     id 'com.github.johnrengelman.shadow' version '2.0.3'
     id 'java'
+    id 'jacoco'
 }
 
 version '0.0.1'
@@ -37,6 +38,50 @@ test {
         events "passed", "skipped", "failed"
     }
 }
+
+jacoco {
+    toolVersion = "0.7.9"
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination file("${buildDir}/jacocoHtml")
+    }
+}
+
+jacocoTestCoverageVerification {
+
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it, exclude:  [
+                    'com/wetrade/assets/utils/Constants.*',
+            ])
+        })
+    }
+
+    violationRules {
+        rule {
+            limit {
+                minimum = 1.00
+            }
+        }
+
+        rule {
+            enabled = false
+            element = 'CLASS'
+            includes = ['com.wetrade.assets.utils.Constants']
+
+            limit {
+                minimum = 0
+            }
+        }
+    }
+}
+
+test.finalizedBy(jacocoTestReport)
+test.finalizedBy(jacocoTestCoverageVerification)
 
 
 tasks.withType(JavaCompile) {

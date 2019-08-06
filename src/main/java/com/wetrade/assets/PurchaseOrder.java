@@ -14,23 +14,23 @@ import org.hyperledger.fabric.contract.annotation.Property;
 public class PurchaseOrder extends Asset {
     @Property()
     @Private(collections = Constants.PRIVATE_COLLECTIONS)
-    String buyerId;
+    private String buyerId;
 
     @Property()
     @Private(collections = Constants.PRIVATE_COLLECTIONS)
-    String sellerId;
+    private String sellerId;
 
     @Property()
     @Private(collections = Constants.PRIVATE_COLLECTIONS)
-    Double price;
+    private Double price;
 
     @Property()
     @Private(collections = Constants.PRIVATE_COLLECTIONS)
-    int units;
+    private Integer units;
 
     @Property()
     @Private(collections = Constants.PRIVATE_COLLECTIONS)
-    String productDescriptor;
+    private String productDescriptor;
 
     @VerifyHash
     @Deserialize(collections = Constants.PRIVATE_COLLECTIONS)
@@ -45,7 +45,27 @@ public class PurchaseOrder extends Asset {
     }
 
     @DefaultDeserialize
-    private PurchaseOrder(String id, String hash) {
+    public PurchaseOrder(String id, String hash) {
         super(id, hash);
+    }
+
+    public String getBuyerId() {
+        return this.buyerId;
+    }
+
+    public String getSellerId() {
+        return this.sellerId;
+    }
+
+    public Double getPrice() {
+        return this.price;
+    }
+
+    public Integer getUnits() {
+        return this.units;
+    }
+
+    public String getProductDescriptor() {
+        return this.productDescriptor;
     }
 }
