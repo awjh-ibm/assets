@@ -23,12 +23,22 @@ public final class FinanceRequestTest {
     public final static Double interest = 0.10;
     public final static Date completionDate = new Date(milliSince1970);
 
+    class FinanceRequestImpl extends FinanceRequest {
+        public FinanceRequestImpl(String id, String requesterId, String financierId, String purchaseOrderId, Double amount, Double interest, Date completionDate) {
+            super(id, requesterId, financierId, purchaseOrderId, amount, interest, completionDate);
+        }
+
+        public FinanceRequestImpl(String id, String hash) {
+            super(id, hash);
+        }
+    }
+
     @Nested
     class Constructors {
 
         @Test
         public void shouldCreateFullObject() {
-            FinanceRequest fr = new FinanceRequest(id, requesterId, financierId, purchaseOrderId, amount, interest, completionDate);
+            FinanceRequest fr = new FinanceRequestImpl(id, requesterId, financierId, purchaseOrderId, amount, interest, completionDate);
         
             assertEquals(fr.getId(), id);
             assertEquals(fr.getRequesterId(), requesterId);
@@ -41,7 +51,7 @@ public final class FinanceRequestTest {
 
         @Test
         public void shouldPartialObject() {    
-            FinanceRequest fr = new FinanceRequest(id, hash);
+            FinanceRequest fr = new FinanceRequestImpl(id, hash);
     
             assertEquals(fr.getId(), "some id");
             assertEquals(fr.getHash(), "some hash");
@@ -61,7 +71,7 @@ public final class FinanceRequestTest {
         @Test
         public void shouldGetRequesterId() {
             try {
-                FinanceRequest fr = new FinanceRequest(id, hash);
+                FinanceRequest fr = new FinanceRequestImpl(id, hash);
 
                 Field field = FinanceRequest.class.getDeclaredField("requesterId");
                 field.setAccessible(true);
@@ -77,7 +87,7 @@ public final class FinanceRequestTest {
         @Test
         public void shouldGetFinancierId() {
             try {
-                FinanceRequest fr = new FinanceRequest(id, hash);
+                FinanceRequest fr = new FinanceRequestImpl(id, hash);
 
                 Field field = FinanceRequest.class.getDeclaredField("financierId");
                 field.setAccessible(true);
@@ -93,7 +103,7 @@ public final class FinanceRequestTest {
         @Test
         public void shouldGetPurchaseOrderId() {
             try {
-                FinanceRequest fr = new FinanceRequest(id, hash);
+                FinanceRequest fr = new FinanceRequestImpl(id, hash);
 
                 Field field = FinanceRequest.class.getDeclaredField("purchaseOrderId");
                 field.setAccessible(true);
@@ -109,7 +119,7 @@ public final class FinanceRequestTest {
         @Test
         public void shouldGetAmount() {
             try {
-                FinanceRequest fr = new FinanceRequest(id, hash);
+                FinanceRequest fr = new FinanceRequestImpl(id, hash);
 
                 Field field = FinanceRequest.class.getDeclaredField("amount");
                 field.setAccessible(true);
@@ -125,7 +135,7 @@ public final class FinanceRequestTest {
         @Test
         public void shouldGetInterest() {
             try {
-                FinanceRequest fr = new FinanceRequest(id, hash);
+                FinanceRequest fr = new FinanceRequestImpl(id, hash);
 
                 Field field = FinanceRequest.class.getDeclaredField("interest");
                 field.setAccessible(true);
@@ -141,7 +151,7 @@ public final class FinanceRequestTest {
         @Test
         public void shouldGetCompletionDate() {
             try {
-                FinanceRequest fr = new FinanceRequest(id, hash);
+                FinanceRequest fr = new FinanceRequestImpl(id, hash);
 
                 Field field = FinanceRequest.class.getDeclaredField("completionDate");
                 field.setAccessible(true);

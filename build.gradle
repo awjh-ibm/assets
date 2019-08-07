@@ -39,6 +39,12 @@ test {
     }
 }
 
+shadowJar {
+    baseName = 'assets'
+    version = version
+    classifier = null
+}
+
 jacoco {
     toolVersion = "0.7.9"
 }
@@ -87,3 +93,5 @@ test.finalizedBy(jacocoTestCoverageVerification)
 tasks.withType(JavaCompile) {
   options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation" << "-parameters"
 }
+
+build.dependsOn(shadowJar);
