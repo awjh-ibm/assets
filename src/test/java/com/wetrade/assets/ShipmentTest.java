@@ -17,12 +17,22 @@ public final class ShipmentTest {
     public final static String purchaseOrderId = "some purchase order";
     public final static int units = 10;
 
+    class ShipmentImpl extends Shipment {
+        public ShipmentImpl(String id, String purchaseOrderId, int units) {
+            super(id, purchaseOrderId, units);
+        }
+    
+        public ShipmentImpl(String id, String hash) {
+            super(id, hash);
+        }
+    }
+
     @Nested
     class Constructors {
 
         @Test
         public void shouldCreateFullObject() {
-            Shipment shipment = new Shipment(id, purchaseOrderId, units);
+            Shipment shipment = new ShipmentImpl(id, purchaseOrderId, units);
 
             assertEquals(shipment.getId(), id);
             assertEquals(shipment.getPurchaseOrderId(), purchaseOrderId);
@@ -31,7 +41,7 @@ public final class ShipmentTest {
 
         @Test
         public void shouldCreatePartialObject() {
-            Shipment shipment = new Shipment(id, hash);
+            Shipment shipment = new ShipmentImpl(id, hash);
 
             assertEquals(shipment.getId(), id);
             assertEquals(shipment.getHash(), hash);
@@ -47,7 +57,7 @@ public final class ShipmentTest {
         @Test
         public void shouldGetPurchaseOrderId() {
             try {
-                Shipment shipment = new Shipment(id, hash);
+                Shipment shipment = new ShipmentImpl(id, hash);
 
                 Field field = Shipment.class.getDeclaredField("purchaseOrderId");
                 field.setAccessible(true);
@@ -63,7 +73,7 @@ public final class ShipmentTest {
         @Test
         public void shouldGetUnits() {
             try {
-                Shipment shipment = new Shipment(id, hash);
+                Shipment shipment = new ShipmentImpl(id, hash);
 
                 Field field = Shipment.class.getDeclaredField("units");
                 field.setAccessible(true);
