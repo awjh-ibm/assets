@@ -14,27 +14,27 @@ import org.hyperledger.fabric.contract.annotation.Property;
 public class FinanceRequest extends Asset {
     @Property()
     @Private(collections = Constants.PRIVATE_COLLECTIONS)
-    String requesterId;
+    private String requesterId;
 
     @Property()
     @Private(collections = Constants.PRIVATE_COLLECTIONS)
-    String financierId;
+    private String financierId;
 
     @Property()
     @Private(collections = Constants.PRIVATE_COLLECTIONS)
-    String purchaseOrderId;
+    private String purchaseOrderId;
 
     @Property()
     @Private(collections = Constants.PRIVATE_COLLECTIONS)
-    Double amount;
+    private Double amount;
 
     @Property()
     @Private(collections = Constants.PRIVATE_COLLECTIONS)
-    Double interest;
+    private Double interest;
 
     @Property()
     @Private(collections = Constants.PRIVATE_COLLECTIONS)
-    Date completionDate;
+    private Date completionDate;
 
     @VerifyHash
     @Deserialize(collections = Constants.PRIVATE_COLLECTIONS)
@@ -50,7 +50,31 @@ public class FinanceRequest extends Asset {
     }
 
     @DefaultDeserialize
-    private FinanceRequest(String id, String hash) {
+    public FinanceRequest(String id, String hash) {
         super(id, hash);
+    }
+
+    public String getRequesterId() {
+        return this.requesterId;
+    }
+
+    public String getFinancierId() {
+        return this.financierId;
+    }
+
+    public String getPurchaseOrderId() {
+        return this.purchaseOrderId;
+    }
+
+    public Double getAmount() {
+        return this.amount;
+    }
+
+    public Double getInterest() {
+        return this.interest;
+    }
+
+    public Date getCompletionDate() {
+        return this.completionDate;
     }
 }
