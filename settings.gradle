@@ -2,4 +2,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 rootProject.name = 'assets'
+sourceControl {
+    gitRepository("ssh://git@github.ibm.com/WeTradePOC/ledger-api.git") {
+        producesModule("com.wetrade:ledger-api")
+    }
+}
 

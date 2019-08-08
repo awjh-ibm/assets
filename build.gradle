@@ -27,7 +27,11 @@ repositories {
 
 dependencies {
     compile group: 'org.hyperledger.fabric-chaincode-java', name: 'fabric-chaincode-shim', version: '1.4.2'
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation ('com.wetrade:ledger-api') {
+         version {
+            branch = 'master'
+        }
+    }
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.4.2'
     testImplementation 'org.assertj:assertj-core:3.11.1'
@@ -103,12 +107,5 @@ publishing {
         }
     }
 }
-
-task buildSubmodules(type: Exec) {
-    println "Before the build"
-    commandLine "$projectDir/scripts/before_install.sh"
-}
-
-assemble.dependsOn buildSubmodules
 
 build.dependsOn(shadowJar);
