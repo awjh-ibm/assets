@@ -20,22 +20,12 @@ public final class PurchaseOrderRequestTest {
     public final static int units = 10;
     public final static String productDescriptor = "some product"; 
 
-    class PurchaseOrderImpl extends PurchaseOrder {
-        public PurchaseOrderImpl(String id, String buyerId, String sellerId, Double price, int units, String productDescriptor){
-            super(id, buyerId, sellerId, price, units, productDescriptor);
-        }
-    
-        public PurchaseOrderImpl(String id, String hash) {
-            super(id, hash);
-        }
-    }
-
     @Nested
     class Constructors {
 
         @Test
         public void shouldCreateFullObject() {
-            PurchaseOrder po = new PurchaseOrderImpl(id, buyerId, sellerId, price, units, productDescriptor);
+            PurchaseOrder po = new PurchaseOrder(id, buyerId, sellerId, price, units, productDescriptor);
         
             assertEquals(po.getId(), id);
             assertEquals(po.getBuyerId(), buyerId);
@@ -47,7 +37,7 @@ public final class PurchaseOrderRequestTest {
 
         @Test
         public void shouldCreatePartialObject() {
-            PurchaseOrder po = new PurchaseOrderImpl(id, hash);
+            PurchaseOrder po = new PurchaseOrder(id, hash);
         
             assertEquals(po.getId(), id);
             assertEquals(po.getHash(), hash);
@@ -66,7 +56,7 @@ public final class PurchaseOrderRequestTest {
         @Test
         public void shouldGetBuyerId() {
             try {
-                PurchaseOrder po = new PurchaseOrderImpl(id, hash);
+                PurchaseOrder po = new PurchaseOrder(id, hash);
 
                 Field field = PurchaseOrder.class.getDeclaredField("buyerId");
                 field.setAccessible(true);
@@ -82,7 +72,7 @@ public final class PurchaseOrderRequestTest {
         @Test
         public void shouldGetSellerId() {
             try {
-                PurchaseOrder po = new PurchaseOrderImpl(id, hash);
+                PurchaseOrder po = new PurchaseOrder(id, hash);
 
                 Field field = PurchaseOrder.class.getDeclaredField("sellerId");
                 field.setAccessible(true);
@@ -98,7 +88,7 @@ public final class PurchaseOrderRequestTest {
         @Test
         public void shouldGetPrice() {
             try {
-                PurchaseOrder po = new PurchaseOrderImpl(id, hash);
+                PurchaseOrder po = new PurchaseOrder(id, hash);
 
                 Field field = PurchaseOrder.class.getDeclaredField("price");
                 field.setAccessible(true);
@@ -114,7 +104,7 @@ public final class PurchaseOrderRequestTest {
         @Test
         public void shouldGetUnits() {
             try {
-                PurchaseOrder po = new PurchaseOrderImpl(id, hash);
+                PurchaseOrder po = new PurchaseOrder(id, hash);
 
                 Field field = PurchaseOrder.class.getDeclaredField("units");
                 field.setAccessible(true);
@@ -130,7 +120,7 @@ public final class PurchaseOrderRequestTest {
         @Test
         public void shouldGetProductDescriptor() {
             try {
-                PurchaseOrder po = new PurchaseOrderImpl(id, hash);
+                PurchaseOrder po = new PurchaseOrder(id, hash);
 
                 Field field = PurchaseOrder.class.getDeclaredField("productDescriptor");
                 field.setAccessible(true);
