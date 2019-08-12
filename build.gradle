@@ -113,11 +113,12 @@ task copyTest(type: Copy) {
   into 'bin/test'
 }
 
-
 task runAfterBuild(type: Copy) {
   dependsOn 'copySource'
   dependsOn 'copyTest'
 }
+
+build.finalizedBy(runAfterBuild)
 
 publishing {
     publications {
