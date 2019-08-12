@@ -58,6 +58,7 @@ jacocoTestCoverageVerification {
         classDirectories = files(classDirectories.files.collect {
             fileTree(dir: it, exclude:  [
                     'com/wetrade/assets/utils/Constants.*',
+                    'com/wetrade/assets/enums/*'
             ])
         })
     }

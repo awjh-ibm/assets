@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.lang.reflect.Field;
 
+import com.wetrade.assets.enums.PurchaseOrderStatus;
+
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -18,14 +20,15 @@ public final class PurchaseOrderRequestTest {
     public final static String sellerId = "some seller";
     public final static Double price = 100.00;
     public final static int units = 10;
-    public final static String productDescriptor = "some product"; 
+    public final static String productDescriptor = "some product";
+    public final static PurchaseOrderStatus status = PurchaseOrderStatus.APPROVED;
 
     @Nested
     class Constructors {
 
         @Test
         public void shouldCreateFullObject() {
-            PurchaseOrder po = new PurchaseOrder(id, buyerId, sellerId, price, units, productDescriptor);
+            PurchaseOrder po = new PurchaseOrder(id, buyerId, sellerId, price, units, productDescriptor, status);
         
             assertEquals(po.getId(), id);
             assertEquals(po.getBuyerId(), buyerId);
@@ -130,6 +133,62 @@ public final class PurchaseOrderRequestTest {
             }
             catch (Exception e) {
                 fail(e.getMessage());
+            }
+        }
+
+        @Test
+        public void shouldGetStatus() {
+            try {
+                PurchaseOrder po = new PurchaseOrder(id, hash);
+
+                Field field = PurchaseOrder.class.getDeclaredField("status");
+                field.setAccessible(true);
+                field.set(po, status);
+
+                assertEquals(po.getStatus(), status);
+            }
+            catch (Exception e) {
+                fail(e.getMessage());
+            }
+        }
+    }
+
+    @Nested
+    class Setters {
+
+        @Test
+        public void shouldSetStatus() {
+            try {
+                PurchaseOrder po = new PurchaseOrder(id, hash);
+
+                Field field = PurchaseOrder.class.getDeclaredField("status");
+                field.setAccessible(true);
+                field.set(po, status);
+
+                po.setStatus(PurchaseOrderStatus.CLOSED);
+
+                assertEquals(po.getStatus(), PurchaseOrderStatus.CLOSED);
+            }
+            catch (Exception e) {
+                fail(e.getMessage());
+            }
+        }
+
+        @Test
+        public void shouldFailToSetStatusWhenBackwardStep() {
+            try {
+                PurchaseOrder po = new PurchaseOrder(id, hash);
+
+                Field field = PurchaseOrder.class.getDeclaredField("status");
+                field.setAccessible(true);
+                field.set(po, status);
+
+                po.setStatus(PurchaseOrderStatus.PENDING);
+
+                fail("should have failed to set status");
+            }
+            catch (Exception e) {
+                assertEquals(e.getMessage(), "Status cannot go backwards");
             }
         }
     }

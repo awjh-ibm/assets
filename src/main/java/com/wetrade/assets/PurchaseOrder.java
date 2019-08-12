@@ -1,5 +1,6 @@
 package com.wetrade.assets;
 
+import com.wetrade.assets.enums.PurchaseOrderStatus;
 import com.wetrade.assets.utils.Constants;
 import com.wetrade.ledger_api.Asset;
 import com.wetrade.ledger_api.annotations.DefaultDeserialize;
@@ -31,9 +32,13 @@ public class PurchaseOrder extends Asset {
     @Private(collections = Constants.PRIVATE_COLLECTIONS)
     private String productDescriptor;
 
+    @Property
+    @Private(collections = Constants.PRIVATE_COLLECTIONS)
+    private PurchaseOrderStatus status;
+
     @VerifyHash
     @Deserialize(collections = Constants.PRIVATE_COLLECTIONS)
-    public PurchaseOrder(String id, String buyerId, String sellerId, Double price, int units, String productDescriptor){
+    public PurchaseOrder(String id, String buyerId, String sellerId, Double price, int units, String productDescriptor, PurchaseOrderStatus status){
         super(id);
 
         this.buyerId = buyerId;
@@ -41,6 +46,7 @@ public class PurchaseOrder extends Asset {
         this.price = price;
         this.units = units;
         this.productDescriptor = productDescriptor;
+        this.status = status;
     }
 
     @DefaultDeserialize
@@ -66,5 +72,17 @@ public class PurchaseOrder extends Asset {
 
     public String getProductDescriptor() {
         return this.productDescriptor;
+    }
+
+    public PurchaseOrderStatus getStatus() {
+        return this.status;
+    }
+
+    public void setStatus(PurchaseOrderStatus newStatus) {
+        if (this.status.compareTo(newStatus) > 0) {
+            throw new RuntimeException("Status cannot go backwards");
+        }
+
+        this.status = newStatus;
     }
 }
