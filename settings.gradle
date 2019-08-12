@@ -6,5 +6,5 @@ rootProject.name = 'assets'
 boolean isIncludedBuild = gradle.parent != null
 
 if (!isIncludedBuild) {
-    includeBuild './deps/ledger-api'
+    include 'modules:ledger-api'
 }
