@@ -97,6 +97,28 @@ tasks.withType(JavaCompile) {
   options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation" << "-parameters"
 }
 
+task cleanFiles(type: Delete) {
+  delete 'bin/main', 'bin/test'
+}
+
+task copySource(type: Copy) {
+  from 'build/classes/java/main'
+  from 'build/resources/main'
+  into 'bin/main'
+}
+
+task copyTest(type: Copy) {
+  from 'build/classes/java/test'
+  from 'build/resources/test'
+  into 'bin/test'
+}
+
+
+task runAfterBuild(type: Copy) {
+  dependsOn 'copySource'
+  dependsOn 'copyTest'
+}
+
 publishing {
     publications {
         mavenJava(MavenPublication) {
