@@ -1,5 +1,6 @@
 package com.wetrade.assets;
 
+import com.wetrade.assets.enums.ShipmentStatus;
 import com.wetrade.assets.utils.Constants;
 import com.wetrade.ledger_api.Asset;
 import com.wetrade.ledger_api.annotations.DefaultDeserialize;
@@ -19,13 +20,28 @@ public class Shipment extends Asset {
     @Private(collections = Constants.PRIVATE_COLLECTIONS)
     private Integer units;
 
+    @Property
+    @Private(collections = Constants.PRIVATE_COLLECTIONS)
+    private String senderId;
+
+    @Property
+    @Private(collections = Constants.PRIVATE_COLLECTIONS)
+    private String receiverId;
+
+    @Property
+    @Private(collections = Constants.PRIVATE_COLLECTIONS)
+    private ShipmentStatus status;
+
     @VerifyHash
     @Deserialize(collections = Constants.PRIVATE_COLLECTIONS)
-    public Shipment(String id, String purchaseOrderId, int units) {
+    public Shipment(String id, String purchaseOrderId, int units, String senderId, String receiverId, ShipmentStatus status) {
         super(id);
 
         this.purchaseOrderId = purchaseOrderId;
         this.units = units;
+        this.senderId = senderId;
+        this.receiverId = receiverId;
+        this.status = status;
     }
 
     @DefaultDeserialize
@@ -39,5 +55,25 @@ public class Shipment extends Asset {
 
     public Integer getUnits() {
         return this.units;
+    }
+
+    public String getSenderId() {
+        return this.senderId;
+    }
+
+    public String getReceiverId() {
+        return this.receiverId;
+    }
+
+    public ShipmentStatus getStatus() {
+        return this.status;
+    }
+
+    public void setStatus(ShipmentStatus newStatus) {
+        if (this.status.compareTo(newStatus) > 0) {
+            throw new RuntimeException("Status cannot go backwards");
+        }
+
+        this.status = newStatus;
     }
 }

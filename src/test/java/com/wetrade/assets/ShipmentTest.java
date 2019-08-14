@@ -2,31 +2,40 @@ package com.wetrade.assets;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.lang.reflect.Field;
+
+import com.wetrade.assets.enums.ShipmentStatus;
 
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 public final class ShipmentTest {
-    
+
     public final static String hash = "some hash";
     public final static String id = "some id";
 
     public final static String purchaseOrderId = "some purchase order";
     public final static int units = 10;
+    public final static String senderId = "some seller ID";
+    public final static String receiverId = "some receiver ID";
+    public final static ShipmentStatus status = ShipmentStatus.DELIVERED;
 
     @Nested
     class Constructors {
 
         @Test
         public void shouldCreateFullObject() {
-            Shipment shipment = new Shipment(id, purchaseOrderId, units);
+            Shipment shipment = new Shipment(id, purchaseOrderId, units, senderId, receiverId, status);
 
             assertEquals(shipment.getId(), id);
             assertEquals(shipment.getPurchaseOrderId(), purchaseOrderId);
             assertEquals(shipment.getUnits(), units);
+            assertEquals(shipment.getSenderId(), senderId);
+            assertEquals(shipment.getReceiverId(), receiverId);
+            assertEquals(shipment.getStatus(), status);
         }
 
         @Test
@@ -72,6 +81,32 @@ public final class ShipmentTest {
                 assertEquals(shipment.getUnits(), units);
             }
             catch (Exception e) {
+                fail(e.getMessage());
+            }
+        }
+    }
+
+    @Nested
+    class Setters {
+        @Test
+        public void shouldNotMoveStatusBackwards() {
+            try {
+                Shipment shipment = new Shipment(id, purchaseOrderId, units, receiverId, senderId, status);
+                // Move backwards from DELIVERED to IN_TRANSIT
+                shipment.setStatus(ShipmentStatus.IN_TRANSIT);
+                fail("Should not be able to move the status backwards");
+            } catch (Exception e) {
+                assertTrue(e instanceof RuntimeException);
+            }
+        }
+
+        @Test
+        public void shouldMoveStatusForwards() {
+            try {
+                Shipment shipment = new Shipment(id, purchaseOrderId, units, receiverId, senderId, ShipmentStatus.IN_TRANSIT);
+                // Move backwards from DELIVERED to IN_TRANSIT
+                shipment.setStatus(ShipmentStatus.DELIVERED);
+            } catch (Exception e) {
                 fail(e.getMessage());
             }
         }
