@@ -2,6 +2,7 @@ package com.wetrade.assets;
 
 import java.util.Date;
 
+import com.wetrade.assets.enums.FinanceRequestStatus;
 import com.wetrade.assets.utils.Constants;
 import com.wetrade.ledger_api.Asset;
 import com.wetrade.ledger_api.annotations.DefaultDeserialize;
@@ -36,10 +37,17 @@ public class FinanceRequest extends Asset {
     @Private(collections = Constants.PRIVATE_COLLECTIONS)
     private Date completionDate;
 
+    @Property
+    @Private(collections = Constants.PRIVATE_COLLECTIONS)
+    private String requestGroup;
+
+    @Property
+    @Private(collections = Constants.PRIVATE_COLLECTIONS)
+    private FinanceRequestStatus status;
+
     @VerifyHash
     @Deserialize(collections = Constants.PRIVATE_COLLECTIONS)
-
-    public FinanceRequest(String id, String requesterId, String financierId, String purchaseOrderId, Double amount, Double interest, Date completionDate) {
+    public FinanceRequest(String id, String requesterId, String financierId, String purchaseOrderId, Double amount, Double interest, Date completionDate, String requestGroup, FinanceRequestStatus status) {
         super(id);
 
         this.requesterId = requesterId;
@@ -48,6 +56,8 @@ public class FinanceRequest extends Asset {
         this.amount = amount;
         this.interest = interest;
         this.completionDate = completionDate;
+        this.requestGroup = requestGroup;
+        this.status = status;
     }
 
     @DefaultDeserialize
@@ -77,5 +87,21 @@ public class FinanceRequest extends Asset {
 
     public Date getCompletionDate() {
         return this.completionDate;
+    }
+
+    public String getRequestGroup() {
+        return this.requestGroup;
+    }
+
+    public FinanceRequestStatus getStatus() {
+        return this.status;
+    }
+
+    public void setStatus(FinanceRequestStatus newStatus) {
+        if (this.status.compareTo(newStatus) > 0) {
+            throw new RuntimeException("Status cannot go backwards");
+        }
+
+        this.status = newStatus;
     }
 }
