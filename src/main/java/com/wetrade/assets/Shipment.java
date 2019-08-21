@@ -8,8 +8,10 @@ import com.wetrade.ledger_api.annotations.Deserialize;
 import com.wetrade.ledger_api.annotations.Private;
 import com.wetrade.ledger_api.annotations.VerifyHash;
 
+import org.hyperledger.fabric.contract.annotation.DataType;
 import org.hyperledger.fabric.contract.annotation.Property;
 
+@DataType
 public class Shipment extends Asset {
 
     @Property
