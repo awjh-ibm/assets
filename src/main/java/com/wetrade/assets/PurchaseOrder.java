@@ -1,7 +1,6 @@
 package com.wetrade.assets;
 
 import com.wetrade.assets.enums.PurchaseOrderStatus;
-import com.wetrade.assets.utils.Constants;
 import com.wetrade.ledger_api.Asset;
 import com.wetrade.ledger_api.annotations.DefaultDeserialize;
 import com.wetrade.ledger_api.annotations.Deserialize;
@@ -15,31 +14,31 @@ import org.hyperledger.fabric.contract.annotation.Property;
 public class PurchaseOrder extends Asset {
 
     @Property
-    @Private(collections = Constants.PRIVATE_COLLECTIONS)
+    @Private
     private String buyerId;
 
     @Property
-    @Private(collections = Constants.PRIVATE_COLLECTIONS)
+    @Private
     private String sellerId;
 
     @Property
-    @Private(collections = Constants.PRIVATE_COLLECTIONS)
+    @Private
     private Double price;
 
     @Property
-    @Private(collections = Constants.PRIVATE_COLLECTIONS)
+    @Private
     private Integer units;
 
     @Property
-    @Private(collections = Constants.PRIVATE_COLLECTIONS)
+    @Private
     private String productDescriptor;
 
     @Property
-    @Private(collections = Constants.PRIVATE_COLLECTIONS)
+    @Private
     private PurchaseOrderStatus status;
 
     @VerifyHash
-    @Deserialize(collections = Constants.PRIVATE_COLLECTIONS)
+    @Deserialize
     public PurchaseOrder(String id, String buyerId, String sellerId, Double price, int units, String productDescriptor, PurchaseOrderStatus status){
         super(id);
 

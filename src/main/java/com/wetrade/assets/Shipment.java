@@ -1,7 +1,6 @@
 package com.wetrade.assets;
 
 import com.wetrade.assets.enums.ShipmentStatus;
-import com.wetrade.assets.utils.Constants;
 import com.wetrade.ledger_api.Asset;
 import com.wetrade.ledger_api.annotations.DefaultDeserialize;
 import com.wetrade.ledger_api.annotations.Deserialize;
@@ -15,27 +14,27 @@ import org.hyperledger.fabric.contract.annotation.Property;
 public class Shipment extends Asset {
 
     @Property
-    @Private(collections = Constants.PRIVATE_COLLECTIONS)
+    @Private
     private String purchaseOrderId;
 
     @Property
-    @Private(collections = Constants.PRIVATE_COLLECTIONS)
+    @Private
     private Integer units;
 
     @Property
-    @Private(collections = Constants.PRIVATE_COLLECTIONS)
+    @Private
     private String senderId;
 
     @Property
-    @Private(collections = Constants.PRIVATE_COLLECTIONS)
+    @Private
     private String receiverId;
 
     @Property
-    @Private(collections = Constants.PRIVATE_COLLECTIONS)
+    @Private
     private ShipmentStatus status;
 
     @VerifyHash
-    @Deserialize(collections = Constants.PRIVATE_COLLECTIONS)
+    @Deserialize
     public Shipment(String id, String purchaseOrderId, int units, String senderId, String receiverId, ShipmentStatus status) {
         super(id);
 

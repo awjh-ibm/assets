@@ -3,7 +3,6 @@ package com.wetrade.assets;
 import java.util.Date;
 
 import com.wetrade.assets.enums.FinanceRequestStatus;
-import com.wetrade.assets.utils.Constants;
 import com.wetrade.ledger_api.Asset;
 import com.wetrade.ledger_api.annotations.DefaultDeserialize;
 import com.wetrade.ledger_api.annotations.Deserialize;
@@ -16,39 +15,39 @@ import org.hyperledger.fabric.contract.annotation.Property;
 @DataType()
 public class FinanceRequest extends Asset {
     @Property
-    @Private(collections = Constants.PRIVATE_COLLECTIONS)
+    @Private
     private String requesterId;
 
     @Property
-    @Private(collections = Constants.PRIVATE_COLLECTIONS)
+    @Private
     private String financierId;
 
     @Property
-    @Private(collections = Constants.PRIVATE_COLLECTIONS)
+    @Private
     private String purchaseOrderId;
 
     @Property
-    @Private(collections = Constants.PRIVATE_COLLECTIONS)
+    @Private
     private Double amount;
 
     @Property
-    @Private(collections = Constants.PRIVATE_COLLECTIONS)
+    @Private
     private Double interest;
 
     @Property
-    @Private(collections = Constants.PRIVATE_COLLECTIONS)
+    @Private
     private Date completionDate;
 
     @Property
-    @Private(collections = Constants.PRIVATE_COLLECTIONS)
+    @Private
     private String requestGroup;
 
     @Property
-    @Private(collections = Constants.PRIVATE_COLLECTIONS)
+    @Private
     private FinanceRequestStatus status;
 
     @VerifyHash
-    @Deserialize(collections = Constants.PRIVATE_COLLECTIONS)
+    @Deserialize
     public FinanceRequest(String id, String requesterId, String financierId, String purchaseOrderId, Double amount, Double interest, Date completionDate, String requestGroup, FinanceRequestStatus status) {
         super(id);
 
