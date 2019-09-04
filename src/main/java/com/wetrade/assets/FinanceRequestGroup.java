@@ -20,6 +20,8 @@ public class FinanceRequestGroup extends Asset {
         super(id);
 
         this.requestIds = requestIds;
+
+        this.updateHash();
     }
 
     @DefaultDeserialize

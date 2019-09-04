@@ -48,6 +48,8 @@ public class PurchaseOrder extends Asset {
         this.units = units;
         this.productDescriptor = productDescriptor;
         this.status = status;
+
+        this.updateHash();
     }
 
     @DefaultDeserialize

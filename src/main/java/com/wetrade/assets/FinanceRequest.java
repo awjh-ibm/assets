@@ -59,6 +59,8 @@ public class FinanceRequest extends Asset {
         this.completionDate = completionDate;
         this.requestGroup = requestGroup;
         this.status = status;
+
+        this.updateHash();
     }
 
     @DefaultDeserialize

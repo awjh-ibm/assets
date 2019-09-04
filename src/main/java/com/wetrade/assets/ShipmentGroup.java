@@ -22,6 +22,8 @@ public class ShipmentGroup extends Asset {
         super(id);
 
         this.shipmentIds = shipmentIds;
+
+        this.updateHash();
     }
 
     @DefaultDeserialize

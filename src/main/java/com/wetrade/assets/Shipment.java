@@ -43,6 +43,8 @@ public class Shipment extends Asset {
         this.senderId = senderId;
         this.receiverId = receiverId;
         this.status = status;
+
+        this.updateHash();
     }
 
     @DefaultDeserialize
