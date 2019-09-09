@@ -88,4 +88,9 @@ public class PurchaseOrder extends Asset {
 
         this.status = newStatus;
     }
+
+    @Override
+    public String toString() {
+        return this.getId() + " " + this.buyerId + " " + this.sellerId + " " + this.price + " " + this.units + " " + this.productDescriptor + " " + this.status;
+    }
 }

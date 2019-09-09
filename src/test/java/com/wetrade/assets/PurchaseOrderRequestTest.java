@@ -2,6 +2,7 @@ package com.wetrade.assets;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.lang.reflect.Field;
@@ -14,7 +15,7 @@ import org.junit.jupiter.api.Test;
 public final class PurchaseOrderRequestTest {
 
     public final static String hash = "some hash";
-    public final static String id = "some id";  
+    public final static String id = "some id";
 
     public final static String buyerId = "some buyer";
     public final static String sellerId = "some seller";
@@ -29,7 +30,8 @@ public final class PurchaseOrderRequestTest {
         @Test
         public void shouldCreateFullObject() {
             PurchaseOrder po = new PurchaseOrder(id, buyerId, sellerId, price, units, productDescriptor, status);
-        
+            System.out.println(po);
+
             assertEquals(po.getId(), id);
             assertEquals(po.getBuyerId(), buyerId);
             assertEquals(po.getSellerId(), sellerId);
@@ -41,7 +43,7 @@ public final class PurchaseOrderRequestTest {
         @Test
         public void shouldCreatePartialObject() {
             PurchaseOrder po = new PurchaseOrder(id, hash);
-        
+
             assertEquals(po.getId(), id);
             assertEquals(po.getHash(), hash);
 
@@ -190,6 +192,21 @@ public final class PurchaseOrderRequestTest {
             catch (Exception e) {
                 assertEquals(e.getMessage(), "Status cannot go backwards");
             }
+        }
+
+        @Test
+        public void shouldCreateTheCorrectHash() {
+            PurchaseOrder po = new PurchaseOrder(id, "liam", "andy", 1.0, 1, "Widgets", PurchaseOrderStatus.PENDING);
+            PurchaseOrder po1 = new PurchaseOrder(id, "liam", "andy", 1.0, 1, "Widgets", PurchaseOrderStatus.PENDING);
+
+            assertEquals(po.getHash(), po1.getHash());
+        }
+
+        @Test
+        public void shouldVerifyHashCorrectly() {
+            PurchaseOrder po = new PurchaseOrder(id, buyerId, sellerId, price, units, productDescriptor, status);
+            boolean isValid = PurchaseOrder.verifyHash(PurchaseOrder.class, po.getHash(), id, buyerId, sellerId, price, units, productDescriptor, PurchaseOrderStatus.valueOf("APPROVED"));
+            assertTrue(isValid);
         }
     }
 }
