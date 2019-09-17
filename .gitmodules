@@ -1,3 +1,3 @@
 [submodule "modules/ledger-api"]
 	path = modules/ledger-api
-	url = git@github.ibm.com:/WeTradePOC/ledger-api
+	url = git@github.com:awjh-ibm/WeTradePoC-ledger-api.git
