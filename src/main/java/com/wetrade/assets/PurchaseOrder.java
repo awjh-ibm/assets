@@ -1,6 +1,8 @@
 package com.wetrade.assets;
 
-import com.wetrade.assets.enums.PurchaseOrderStatus;
+import com.wetrade.assets.defs.OrderIdentification;
+import com.wetrade.assets.defs.OrderLineItem;
+import com.wetrade.assets.defs.Party;
 import com.wetrade.ledger_api.Asset;
 import com.wetrade.ledger_api.annotations.DefaultDeserialize;
 import com.wetrade.ledger_api.annotations.Deserialize;
@@ -15,82 +17,53 @@ public class PurchaseOrder extends Asset {
 
     @Property
     @Private
-    private String buyerId;
+    private OrderIdentification orderIdentification;
 
     @Property
     @Private
-    private String sellerId;
+    private Integer orderTypeCode;
 
     @Property
     @Private
-    private Double price;
+    private String orderInstructionCode;
 
     @Property
     @Private
-    private Integer units;
+    private Party buyer;
 
     @Property
     @Private
-    private String productDescriptor;
+    private Party seller;
 
     @Property
     @Private
-    private PurchaseOrderStatus status;
+    private OrderLineItem orderLineItem;
 
     @VerifyHash
-    @Deserialize
-    public PurchaseOrder(String id, String buyerId, String sellerId, Double price, int units, String productDescriptor, PurchaseOrderStatus status){
+    public PurchaseOrder(String id, int contentOwnerGln, int buyerGln, int sellerGln, int quantity, double unitPrice, int productGtin) {
         super(id);
 
-        this.buyerId = buyerId;
-        this.sellerId = sellerId;
-        this.price = price;
-        this.units = units;
-        this.productDescriptor = productDescriptor;
-        this.status = status;
+        this.orderIdentification = new OrderIdentification(id, contentOwnerGln);
+        this.orderTypeCode = 220;
+        this.orderInstructionCode = "PARTIAL_DELIVERY_ALLOWED";
+        this.buyer = new Party(buyerGln);
+        this.seller = new Party(sellerGln);
+        this.orderLineItem = new OrderLineItem(1, quantity, unitPrice, productGtin);
+    }
 
-        this.updateHash();
+    @Deserialize
+    public PurchaseOrder(OrderIdentification orderIdentification, Integer orderTypeCode, String orderInstructionCode, Party buyer, Party seller) {
+        super(orderIdentification.getEntityIdentification());
+
+        this.orderIdentification = orderIdentification;
+        this.orderTypeCode = orderTypeCode;
+        this.orderInstructionCode = orderInstructionCode;
+        this.buyer = buyer;
+        this.seller = seller;
     }
 
     @DefaultDeserialize
     public PurchaseOrder(String id, String hash) {
         super(id, hash);
-    }
-
-    public String getBuyerId() {
-        return this.buyerId;
-    }
-
-    public String getSellerId() {
-        return this.sellerId;
-    }
-
-    public Double getPrice() {
-        return this.price;
-    }
-
-    public Integer getUnits() {
-        return this.units;
-    }
-
-    public String getProductDescriptor() {
-        return this.productDescriptor;
-    }
-
-    public PurchaseOrderStatus getStatus() {
-        return this.status;
-    }
-
-    public void setStatus(PurchaseOrderStatus newStatus) {
-        if (this.status.compareTo(newStatus) > 0) {
-            throw new RuntimeException("Status cannot go backwards");
-        }
-
-        this.status = newStatus;
-    }
-
-    @Override
-    public String toString() {
-        return this.getId() + " " + this.buyerId + " " + this.sellerId + " " + this.price + " " + this.units + " " + this.productDescriptor + " " + this.status;
     }
 }
