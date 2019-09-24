@@ -7,6 +7,8 @@ import com.wetrade.assets.enums.ResponseStatusCode;
 import com.wetrade.ledger_api.Asset;
 import com.wetrade.ledger_api.annotations.DefaultDeserialize;
 import com.wetrade.ledger_api.annotations.Deserialize;
+import com.wetrade.ledger_api.annotations.Private;
+import com.wetrade.ledger_api.annotations.VerifyHash;
 
 import org.hyperledger.fabric.contract.annotation.DataType;
 import org.hyperledger.fabric.contract.annotation.Property;
@@ -15,23 +17,28 @@ import org.hyperledger.fabric.contract.annotation.Property;
 public class PurchaseOrderResponse extends Asset {
 
     @Property
+    @Private
     private OrderIdentification orderResponseIdentification;
 
     @Property
+    @Private
     private ResponseStatusCode responseStatusCode;
 
     @Property
+    @Private
     private Party buyer;
 
     @Property
+    @Private
     private Identification originalOrder;
 
-    public PurchaseOrderResponse(String id, int contentOwnerGln, ResponseStatusCode responseStatusCode, int buyerGln, String originalOrderId) {
+    @VerifyHash
+    public PurchaseOrderResponse(String id, long contentOwnerGln, ResponseStatusCode responseStatusCode, Party buyer, String originalOrderId) {
         super(id);
         
         this.orderResponseIdentification = new OrderIdentification(id, contentOwnerGln);
         this.responseStatusCode = responseStatusCode;
-        this.buyer = new Party(buyerGln);
+        this.buyer = buyer;
         this.originalOrder = new Identification(originalOrderId);
     }
 
@@ -48,5 +55,21 @@ public class PurchaseOrderResponse extends Asset {
     @DefaultDeserialize
     public PurchaseOrderResponse(String id, String hash) {
         super(id, hash);
+    }
+
+    public OrderIdentification getOrderResponseIdentification() {
+        return this.orderResponseIdentification;
+    }
+
+    public ResponseStatusCode getResponseStatusCode() {
+        return this.responseStatusCode;
+    }
+
+    public Party getBuyer() {
+        return this.buyer;
+    }
+
+    public Identification getOriginalOrder() {
+        return this.originalOrder;
     }
 }

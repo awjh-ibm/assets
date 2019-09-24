@@ -1,13 +1,13 @@
 package com.wetrade.assets.defs;
 
 import com.wetrade.ledger_api.annotations.DefaultDeserialize;
-import com.wetrade.ledger_api.annotations.Deserialize;
+import com.wetrade.ledger_api.states.Concept;
 
 import org.hyperledger.fabric.contract.annotation.DataType;
 import org.hyperledger.fabric.contract.annotation.Property;
 
 @DataType
-public class OrderLineItem {
+public class OrderLineItem extends Concept {
 
     @Property
     private int lineItemNumber;
@@ -24,7 +24,7 @@ public class OrderLineItem {
     @Property
     private Item transactionalTradeItem;
 
-    public OrderLineItem(int lineItemNumber, int requestedQuantity, double netPrice, int gtin) {
+    public OrderLineItem(int lineItemNumber, int requestedQuantity, double netPrice, long gtin) {
         this.lineItemNumber = lineItemNumber;
         this.requestedQuantity = requestedQuantity;
         this.netPrice = netPrice;
@@ -33,12 +33,27 @@ public class OrderLineItem {
     }
 
     @DefaultDeserialize
-    @Deserialize
     public OrderLineItem(int lineItemNumber, int requestedQuantity, double netPrice, Item transactionalTradeItem) {
         this.lineItemNumber = lineItemNumber;
         this.requestedQuantity = requestedQuantity;
         this.netPrice = netPrice;
         this.netAmount = netPrice * requestedQuantity;
         this.transactionalTradeItem = transactionalTradeItem;
+    }
+
+    public int getLineItemNumber() {
+        return this.lineItemNumber;
+    }
+
+    public int getRequestedQuantity() {
+        return this.requestedQuantity;
+    }
+
+    public double getNetPrice() {
+        return this.netPrice;
+    }
+
+    public double getNetAmount() {
+        return this.netAmount;
     }
 }

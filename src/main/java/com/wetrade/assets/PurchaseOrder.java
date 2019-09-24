@@ -40,14 +40,14 @@ public class PurchaseOrder extends Asset {
     private OrderLineItem orderLineItem;
 
     @VerifyHash
-    public PurchaseOrder(String id, int contentOwnerGln, int buyerGln, int sellerGln, int quantity, double unitPrice, int productGtin) {
+    public PurchaseOrder(String id, long contentOwnerGln, Party buyer, Party seller, int quantity, double unitPrice, long productGtin) {
         super(id);
 
         this.orderIdentification = new OrderIdentification(id, contentOwnerGln);
         this.orderTypeCode = 220;
         this.orderInstructionCode = "PARTIAL_DELIVERY_ALLOWED";
-        this.buyer = new Party(buyerGln);
-        this.seller = new Party(sellerGln);
+        this.buyer = buyer;
+        this.seller = seller;
         this.orderLineItem = new OrderLineItem(1, quantity, unitPrice, productGtin);
     }
 
@@ -65,5 +65,29 @@ public class PurchaseOrder extends Asset {
     @DefaultDeserialize
     public PurchaseOrder(String id, String hash) {
         super(id, hash);
+    }
+
+    public OrderIdentification getOrderIdentification() {
+        return this.orderIdentification;
+    }
+
+    public Integer getOrderTypeCode() {
+        return this.orderTypeCode;
+    }
+
+    public String getOrderInstructionCode() {
+        return this.orderInstructionCode;
+    }
+
+    public Party getBuyer() {
+        return this.buyer;
+    }
+
+    public Party getSeller() {
+        return this.seller;
+    }
+
+    public OrderLineItem getOrderLineItem() {
+        return this.orderLineItem;
     }
 }

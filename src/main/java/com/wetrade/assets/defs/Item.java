@@ -1,24 +1,23 @@
 package com.wetrade.assets.defs;
 
 import com.wetrade.ledger_api.annotations.DefaultDeserialize;
-import com.wetrade.ledger_api.annotations.Deserialize;
+import com.wetrade.ledger_api.states.Concept;
 
 import org.hyperledger.fabric.contract.annotation.DataType;
 import org.hyperledger.fabric.contract.annotation.Property;
 
 @DataType
-public class Item {
+public class Item extends Concept {
 
     @Property
-    private int gtin;
+    private long gtin;
 
     @DefaultDeserialize
-    @Deserialize
-    public Item(int gtin) {
+    public Item(long gtin) {
         this.gtin = gtin;
     }
 
-    public int getGtin() {
+    public long getGtin() {
         return this.gtin;
     }
 }
